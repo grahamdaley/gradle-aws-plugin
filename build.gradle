@@ -16,7 +16,7 @@ buildscript {
 	}
 }
 
-group = "jp.classmethod.aws"
+group = "com.reaptechnology.aws"
 ext.artifactId = "gradle-aws-plugin"
 
 apply plugin: "java"
@@ -207,7 +207,8 @@ dependencies {
 	compile gradleApi()
 	compile "com.google.guava:guava:$guavaVersion"
 	compile "commons-io:commons-io:1.4"
-	compileOnly "org.projectlombok:lombok:$lombokVersion"
+	implementation "org.projectlombok:lombok:$lombokVersion"
+	annotationProcessor "org.projectlombok:lombok:$lombokVersion"
 
 	compile "com.amazonaws:aws-java-sdk-sts:$awsJavaSdkVersion"
 	compile "com.amazonaws:aws-java-sdk-s3:$awsJavaSdkVersion"
@@ -226,6 +227,8 @@ dependencies {
 	compile "com.amazonaws:aws-java-sdk-cloudwatch:$awsJavaSdkVersion"
 
 	// tests
+	testImplementation "org.projectlombok:lombok:$lombokVersion"
+	testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
 	testCompile "junit:junit:$junitVersion"
 	testCompile "org.hamcrest:hamcrest-library:$hamcrestVersion"
 	testCompile "org.mockito:mockito-core:$mockitoCoreVersion"
@@ -237,8 +240,3 @@ dependencies {
 // Allows forks of the plugin to define their own deployment mechanisms
 // in separate files named according to their maven group name
 apply from: "deploy/${group}.gradle"
-
-// ======== wrapper ========
-task wrapper(type: Wrapper) {
-	gradleVersion = "4.6"
-}
